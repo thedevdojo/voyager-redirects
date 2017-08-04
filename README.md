@@ -1,6 +1,6 @@
 # voyager-redirects
 
-<p align="center"><a href="https://the-control-group.github.io/voyager/" target="_blank"><img width="220" src="/cover.jpg?raw=true"></a></p>
+<p align="left"><a href="https://the-control-group.github.io/voyager/" target="_blank"><img width="340" src="/cover.jpg?raw=true"></a></p>
 
 A Hook that allows you to easily add and manage redirects to your Laravel and Voyager App
 
