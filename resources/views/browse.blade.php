@@ -51,6 +51,13 @@
 							<p style="padding: 10px 5px;">No Redirects to display.</p>
 						@endif
 					</div>
+					<div class="panel-footer">
+						<div class="pull-right">
+							{{ $redirects->appends(['filter' => Request::get('filter'), 'sorting' => Request::get('sorting')])->links() }}
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					
 				</div>
 			</div>
 		</div>

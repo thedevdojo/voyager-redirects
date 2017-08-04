@@ -112,7 +112,7 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     	$redirect->save();
 
     	return redirect()
-    			->back()
+    			->route('voyager.redirects.edit', $redirect->id)
     			->with([
                         'message'    => "Successfully Created Redirect",
                         'alert-type' => 'success',
