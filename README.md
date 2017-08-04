@@ -4,4 +4,4 @@
 
 A Hook that allows you to easily add and manage redirects to your Laravel and Voyager App
 
-<p align="left"><a href="https://the-control-group.github.io/voyager/" target="_blank"><img width="640" src="http://i.imgur.com/2jN0wRJ.png"></a></p>
+<p align="left"><a href="https://the-control-group.github.io/voyager/" target="_blank"><img width="740" src="http://i.imgur.com/2jN0wRJ.png"></a></p>
