@@ -16,7 +16,7 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     //              | |_) |
     //              |____/
     //
-    //      Browse the polls (B)READ
+    //      Browse the redirects (B)READ
     //
     //****************************************
 
@@ -46,7 +46,7 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     //               | | \ \
     //               |_|  \_\
     //
-    //      Read a specific poll B(R)EAD
+    //      Read a specific redirect B(R)EAD
     //
     //****************************************
 
@@ -61,7 +61,7 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     //               | |____
     //               |______|
     //
-    //          Edit a poll BR(E)AD
+    //          Edit a redirect BR(E)AD
     //
     //****************************************
 
@@ -95,7 +95,7 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     //               /_/    \_\
     //
     //
-    //          Add a new poll BRE(A)D
+    //          Add a new redirect BRE(A)D
     //
     //****************************************
 
@@ -127,31 +127,23 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
     //               | |__| |
     //               |_____/
     //
-    //          Delete a poll BREA(D)
+    //          Delete a redirect BREA(D)
     //
     //****************************************
 
     public function delete(Request $request){
         $id = $request->id;
-        $data = Poll::destroy($id)
+        $data = VoyagerRedirect::destroy($id)
             ? [
-                'message'    => "Successfully Deleted Poll",
+                'message'    => "Successfully Deleted Redirect",
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => "Sorry it appears there was a problem deleting this poll",
+                'message'    => "Sorry it appears there was a problem deleting this redirect",
                 'alert-type' => 'error',
             ];
 
-        return redirect()->route("voyager.polls")->with($data);
+        return redirect()->route("voyager.redirects")->with($data);
     }
 
-    public function redirect(Request $request){
-        $redirect = \App\VoyagerRedirect::where('from', '=', trim($request->path()))->first();
-        if(isset($redirect->to)){
-            return redirect($redirect->to, $redirect->type);
-        } else {
-            echo 'blah';
-        }
-    }
 }

@@ -21,6 +21,9 @@ class VoyagerRedirectServiceProvider extends \Illuminate\Support\ServiceProvider
 		$events->listen('voyager.menu.display', [$this, 'addRedirectMenuItem']);
 		$this->loadViewsFrom(base_path('hooks/voyager-redirects/resources/views'), 'voyager.redirects');
 		$this->loadModels();
+
+		// Add the redirect middleware that will handle all redirects
+		$this->app['Illuminate\Contracts\Http\Kernel']->prependMiddleware(\Hooks\VoyagerRedirects\Http\Middleware\VoyagerRedirectMiddleware::class);
 	}
 
 	public function addRedirectRoutes($router)

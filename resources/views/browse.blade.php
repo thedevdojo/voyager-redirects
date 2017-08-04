@@ -30,8 +30,8 @@
 							<tbody>
 								@foreach($redirects as $redirect)
 								<tr role="row" class="odd">
-									<td><a href="{{ $redirect->from }}" target="_blank">{{ $redirect->from }}</a></td>
-									<td><a href="{{ $redirect->to }}" target="_blank">{{ $redirect->to }}</a></td>
+									<td><a href="/{{ $redirect->from }}" target="_blank">{{ $redirect->from }}</a></td>
+									<td><a href="/{{ $redirect->to }}" target="_blank">{{ $redirect->to }}</a></td>
 									<td>{{ $redirect->type }}</td>
 									<td>{{ Carbon\Carbon::parse($redirect->created_at)->toDayDateTimeString() }}</td>
 									<td>{{ Carbon\Carbon::parse($redirect->updated_at)->toDayDateTimeString() }}</td>
@@ -54,6 +54,30 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title"><i class="voyager-trash"></i> Are you sure you want to delete
+	                        this Redirect?</h4>
+	                </div>
+	                <div class="modal-footer">
+	                    <form action="{{ route('voyager.redirects.delete') }}" id="delete_form" method="POST">
+	                        {{ method_field("DELETE") }}
+	                        {{ csrf_field() }}
+	                        <input type="hidden" value="" id="delete_id" name="id">
+	                        <input type="submit" class="btn btn-danger pull-right delete-confirm"
+	                                 value="Yes, delete this redirect">
+	                    </form>
+	                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+	                </div>
+	            </div><!-- /.modal-content -->
+	        </div><!-- /.modal-dialog -->
+	    </div><!-- /.modal -->
+
 	</div>
 </div>
 
@@ -62,6 +86,17 @@
 
 @section('javascript')
 <script>
+
+	$('document').ready(function(){
+		$('td').on('click', '.delete', function (e) {
+            var form = $('#delete_form')[0];
+
+            $('#delete_id').val( $(this).data('id') );
+
+            $('#delete_modal').modal('show');
+        });
+	});
+
 	function filter_click(filter, sorting, filter_by){
 		if(filter == filter_by){
 			if(sorting.toLowerCase() == 'desc'){
@@ -72,7 +107,7 @@
 		} else {
 			window.location = window.location.pathname + '?filter=' + filter_by;
 		}
-	}	
+	}
 </script>
 
 @endsection
