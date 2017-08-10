@@ -3,6 +3,7 @@
 namespace Hooks\VoyagerRedirects\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Schema;
 use Hooks\VoyagerRedirects\Models\VoyagerRedirect;
 
 class VoyagerRedirectMiddleware
@@ -16,10 +17,12 @@ class VoyagerRedirectMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $path = $request->path();
-        $redirect = VoyagerRedirect::where('from', '=', $path)->first();
-        if(isset($redirect->id)){
-            return redirect($redirect->to, $redirect->type);
+        if(Schema::hasTable('voyager_redirects')){
+            $path = $request->path();
+            $redirect = VoyagerRedirect::where('from', '=', $path)->first();
+            if(isset($redirect->id)){
+                return redirect($redirect->to, $redirect->type);
+            }
         }
         return $next($request);
     }
