@@ -1,5 +1,7 @@
 <?php
 
+namespace VoyagerRedirects;
+
 use Illuminate\Events\Dispatcher;
 use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;

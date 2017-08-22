@@ -1,6 +1,6 @@
 <?php
 
-namespace Hooks\VoyagerRedirects\Models;
+namespace VoyagerRedirects\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,0 +1,19 @@
+{
+  "name": "voyager-redirects",
+  "description": "A hook to add redirects to your Voyager sites",
+  "require": {
+    "larapack/hooks": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "VoyagerRedirects\\": "src/"
+    }
+  },
+  "extra": {
+    "hook": {
+      "providers": [
+        "VoyagerRedirects\\VoyagerRedirectServiceProvider"
+      ]
+    }
+  }
+}

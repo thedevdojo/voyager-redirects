@@ -1,6 +1,6 @@
 <?php
 
-namespace Hooks\VoyagerRedirects\Http\Middleware;
+namespace VoyagerRedirects\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Schema;

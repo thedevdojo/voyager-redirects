@@ -1,6 +1,6 @@
 <?php
 
-namespace Hooks\VoyagerRedirects\Http\Controllers;
+namespace VoyagerRedirects\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Hooks\VoyagerRedirects\Models\VoyagerRedirect;
