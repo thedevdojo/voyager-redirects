@@ -4,7 +4,7 @@ namespace VoyagerRedirects\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Schema;
-use Hooks\VoyagerRedirects\Models\VoyagerRedirect;
+use VoyagerRedirects\Models\VoyagerRedirect;
 
 class VoyagerRedirectMiddleware
 {
