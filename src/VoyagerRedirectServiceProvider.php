@@ -9,28 +9,33 @@ use TCG\Voyager\Models\Permission;
 use TCG\Voyager\Models\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use VoyagerRedirects\Http\Middleware\VoyagerRedirectMiddleware;
 
 class VoyagerRedirectServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
 	private $models = [
-			'VoyagerRedirect'
-		];
+		'VoyagerRedirect'
+	];
 
-	public function boot(\Illuminate\Routing\Router $router, Dispatcher $events)
+	public function register()
 	{
-		$events->listen('voyager.admin.routing', [$this, 'addRedirectRoutes']);
-		$events->listen('voyager.menu.display', [$this, 'addRedirectMenuItem']);
-		$this->loadViewsFrom(base_path('hooks/voyager-redirects/resources/views'), 'voyager.redirects');
+		app(Dispatcher::class)->listen('voyager.admin.routing', [$this, 'addRedirectRoutes']);
+		app(Dispatcher::class)->listen('voyager.menu.display', [$this, 'addRedirectMenuItem']);
+	}
+
+	public function boot()
+	{
+		$this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager.redirects');
 		$this->loadModels();
 
 		// Add the redirect middleware that will handle all redirects
-		$this->app['Illuminate\Contracts\Http\Kernel']->prependMiddleware(\Hooks\VoyagerRedirects\Http\Middleware\VoyagerRedirectMiddleware::class);
+		$this->app['Illuminate\Contracts\Http\Kernel']->prependMiddleware(VoyagerRedirectMiddleware::class);
 	}
 
 	public function addRedirectRoutes($router)
     {
-        $namespacePrefix = '\\Hooks\\VoyagerRedirects\\Http\\Controllers\\';
+        $namespacePrefix = '\\VoyagerRedirects\\Http\\Controllers\\';
         $router->get('redirects', ['uses' => $namespacePrefix.'VoyagerRedirectController@browse', 'as' => 'redirects']);
         $router->get('redirects/add', ['uses' => $namespacePrefix.'VoyagerRedirectController@add', 'as' => 'redirects.add']);
     	$router->post('redirects/add', ['uses' => $namespacePrefix.'VoyagerRedirectController@add_post', 'as' => 'redirects.add.post']);
@@ -64,7 +69,7 @@ class VoyagerRedirectServiceProvider extends \Illuminate\Support\ServiceProvider
 
 	private function loadModels(){
 		foreach($this->models as $model){
-			$namespacePrefix = '\\Hooks\\VoyagerRedirects\\Models\\';
+			$namespacePrefix = '\\VoyagerRedirects\\Models\\';
 			if(!class_exists($namespacePrefix . $model)){
 				@include(__DIR__.'/Models/' . $model . '.php');
 			}

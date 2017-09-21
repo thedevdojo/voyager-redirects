@@ -3,7 +3,7 @@
 namespace VoyagerRedirects\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Hooks\VoyagerRedirects\Models\VoyagerRedirect;
+use VoyagerRedirects\Models\VoyagerRedirect;
 
 class VoyagerRedirectController extends \App\Http\Controllers\Controller
 {
