@@ -3,6 +3,7 @@
 namespace VoyagerRedirects\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use VoyagerRedirects\Models\VoyagerRedirect;
 
 class VoyagerRedirectController extends \App\Http\Controllers\Controller
@@ -72,18 +73,33 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
 
     // BR(E)AD POST REQUEST
     public function edit_post(Request $request){
-    	$redirect = VoyagerRedirect::find($request->id);
-    	$redirect->from = trim(trim($request->from), '/');
-    	$redirect->to = trim(trim($request->to), '/');
-    	$redirect->type = $request->type;
-    	$redirect->save();
 
-    	return redirect()
-    			->back()
-    			->with([
-                        'message'    => "Successfully Updated Redirect",
-                        'alert-type' => 'success',
-                    ]);
+        $request->from = trim($request->from, '/');
+        $request->to = trim($request->to, '/');
+
+        $validator = Validator::make($request->all(), [
+            'from' => ['required','unique:voyager_redirects,from,'.$request->id],
+            'to' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()]);
+        }
+
+        if (!$request->ajax()) {
+            $redirect = VoyagerRedirect::find($request->id);
+            $redirect->from = $request->from;
+            $redirect->to = $request->to;
+            $redirect->type = $request->type;
+            $redirect->save();
+
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => "Successfully Updated Redirect",
+                    'alert-type' => 'success',
+                ]);
+        }
     }
 
     //***************************************
@@ -105,18 +121,33 @@ class VoyagerRedirectController extends \App\Http\Controllers\Controller
 
     // BRE(A)D POST REQUEST
     public function add_post(Request $request){
-    	$redirect = new VoyagerRedirect;
-    	$redirect->from = trim(trim($request->from), '/');
-    	$redirect->to = trim(trim($request->to), '/');
-    	$redirect->type = $request->type;
-    	$redirect->save();
 
-    	return redirect()
-    			->route('voyager.redirects.edit', $redirect->id)
-    			->with([
-                        'message'    => "Successfully Created Redirect",
-                        'alert-type' => 'success',
-                    ]);
+        $request->from = trim($request->from, '/');
+        $request->to = trim($request->to, '/');
+
+        $validator = Validator::make($request->all(), [
+            'from' => ['required','unique:voyager_redirects,from'],
+            'to' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()]);
+        }
+
+        if (!$request->ajax()) {
+            $redirect = new VoyagerRedirect;
+            $redirect->from = $request->from;
+            $redirect->to = $request->to;
+            $redirect->type = $request->type;
+            $redirect->save();
+
+            return redirect()
+                ->route('voyager.redirects.edit', $redirect->id)
+                ->with([
+                    'message' => "Successfully Created Redirect",
+                    'alert-type' => 'success',
+                ]);
+        }
     }
 
     //***************************************
